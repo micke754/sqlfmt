@@ -8,6 +8,7 @@ from sqlfmt.rules.common import (
     ALTER_WAREHOUSE,
     CREATE_CLONABLE,
     CREATE_FUNCTION,
+    CREATE_MATERIALIZED_VIEW,
     CREATE_WAREHOUSE,
     PRAGMA_SET_CALL,
     group,
@@ -16,6 +17,7 @@ from sqlfmt.rules.core import CORE as CORE
 from sqlfmt.rules.function import FUNCTION as FUNCTION
 from sqlfmt.rules.grant import GRANT as GRANT
 from sqlfmt.rules.jinja import JINJA as JINJA  # noqa
+from sqlfmt.rules.materialized_view import MATERIALIZED_VIEW as MATERIALIZED_VIEW
 from sqlfmt.rules.pragma import PRAGMA as PRAGMA
 from sqlfmt.rules.unsupported import UNSUPPORTED as UNSUPPORTED
 from sqlfmt.rules.warehouse import WAREHOUSE as WAREHOUSE
@@ -322,6 +324,18 @@ MAIN = [
             action=partial(
                 actions.lex_ruleset,
                 new_ruleset=WAREHOUSE,
+            ),
+        ),
+    ),
+    Rule(
+        name="create_materialized_view",
+        priority=2040,
+        pattern=group(CREATE_MATERIALIZED_VIEW) + group(r"\W", r"$"),
+        action=partial(
+            actions.handle_nonreserved_top_level_keyword,
+            action=partial(
+                actions.lex_ruleset,
+                new_ruleset=MATERIALIZED_VIEW,
             ),
         ),
     ),

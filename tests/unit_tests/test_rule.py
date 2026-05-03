@@ -5,9 +5,27 @@ from typing import List
 import pytest
 
 from sqlfmt.rule import Rule
-from sqlfmt.rules import CLONE, CORE, FUNCTION, GRANT, JINJA, MAIN, WAREHOUSE
+from sqlfmt.rules import (
+    CLONE,
+    CORE,
+    FUNCTION,
+    GRANT,
+    JINJA,
+    MAIN,
+    MATERIALIZED_VIEW,
+    WAREHOUSE,
+)
 
-ALL_RULESETS = [CLONE, CORE, FUNCTION, GRANT, JINJA, MAIN, WAREHOUSE]
+ALL_RULESETS = [
+    CLONE,
+    CORE,
+    FUNCTION,
+    GRANT,
+    JINJA,
+    MAIN,
+    MATERIALIZED_VIEW,
+    WAREHOUSE,
+]
 
 
 def get_rule(ruleset: List[Rule], rule_name: str) -> Rule:
@@ -361,6 +379,11 @@ def get_rule(ruleset: List[Rule], rule_name: str) -> Rule:
         (FUNCTION, "unterm_keyword", "set headers"),
         (MAIN, "create_warehouse", "create warehouse if not exists"),
         (MAIN, "create_warehouse", "alter warehouse if exists"),
+        (
+            MAIN,
+            "create_materialized_view",
+            "create or replace materialized view if not exists",
+        ),
         (WAREHOUSE, "unterm_keyword", "create warehouse if not exists"),
         (WAREHOUSE, "unterm_keyword", "create or replace warehouse"),
         (WAREHOUSE, "unterm_keyword", "warehouse_type"),
@@ -375,6 +398,13 @@ def get_rule(ruleset: List[Rule], rule_name: str) -> Rule:
         (WAREHOUSE, "unterm_keyword", "set tag"),
         (WAREHOUSE, "unterm_keyword", "resume if suspended"),
         (WAREHOUSE, "unterm_keyword", "unset scaling_policy"),
+        (
+            MATERIALIZED_VIEW,
+            "unterm_keyword",
+            "create or replace materialized view if not exists",
+        ),
+        (MATERIALIZED_VIEW, "unterm_keyword", "tblproperties"),
+        (MATERIALIZED_VIEW, "materialized_view_as", "as"),
         (MAIN, "create_clone", "create table foo clone"),
         (MAIN, "create_clone", "create table db.sch.foo clone"),
         (MAIN, "create_clone", "create or replace database foo clone"),

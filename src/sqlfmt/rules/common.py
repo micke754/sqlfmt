@@ -39,6 +39,10 @@ ALTER_DROP_FUNCTION = r"(alter|drop)\s+function(\s+if\s+exists)?"
 CREATE_WAREHOUSE = r"create(\s+or\s+replace)?\s+warehouse(\s+if\s+not\s+exists)?"
 ALTER_WAREHOUSE = r"alter\s+warehouse(\s+if\s+exists)?"
 
+CREATE_MATERIALIZED_VIEW = (
+    r"create(\s+or\s+replace)?\s+materialized\s+view(\s+if\s+not\s+exists)?"
+)
+
 CREATE_CLONABLE = (
     r"create(\s+or\s+replace)?\s+"
     + group(
